@@ -20,6 +20,7 @@ export const register = async (req, res) => {
 
       res.status(200).json({ success: true, message: "Successfully created!" })
    } catch (error) {
+      console.log(error);
       res.status(500).json({ success: false, message: "Failed to create! Try again." })
    }
 }
@@ -35,12 +36,12 @@ export const login = async (req, res) => {
          return res.status(404).json({ success: false, message: 'User not found!' })
       }
 
-      // if user is exist then check the passord or compare the password
+      // if user is exist then check the password or compare the password
       const checkCorrectPassword = await bcrypt.compare(req.body.password, user.password)
 
       // if password incorrect 
       if (!checkCorrectPassword) {
-         return res.status(401).json({ susccess: false, message: "Incorrect email or password!" })
+         return res.status(401).json({ success: false, message: "Incorrect email or password!" })
       }
 
       const { password, role, ...rest } = user._doc
